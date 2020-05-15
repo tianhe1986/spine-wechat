@@ -5,12 +5,12 @@
 
 我在这里将canvas以及webgl（基于运行库3.7）调整后的文件放在了spine-modify文件夹中，相应展示的demo也分别放在了demo-canvas和demo-webgl文件夹下(动画模型文件放在了assets文件夹下，实际使用需要自己搭建网络)，也是基于运行库3.7中的官方示例修改的。
 
-但是奉劝一句，不要用canvas模式了，清晰度惨不忍睹，或许是有些配置要调整，但是在默认情况下真的不能看。
+但是奉劝一句，不要用canvas模式了，清晰度惨不忍睹，或许是有些配置参数需要调整优化，但是在默认情况下真的不能看。
 
 webgl模式要好很多，但是相比于将spine动画导入layabox并播放，清晰度方面也还是要差一些。
 
 ## 运行库调整修改
-虽然现在的demo可以直接运行，但是，授之以鱼不如授之以渔，说明怎么改才是正道，下面以spine-webgl为例，其实改动并不太多。
+虽然现在的demo可以直接运行，但是，授之以鱼不如授之以渔，说明怎么改才是正道，下面以spine-webgl为例，其实改动并不太多，可以对比spine-webgl和spine-webgl-ori查看其中的差异。
 
 ### 更改导出方式
 首先，小程序用的是export/import形的语法，因此，最终需要将spine导出。
@@ -32,4 +32,4 @@ webgl模式要好很多，但是相比于将spine动画导入layabox并播放，
 ### 增加XMLHttpRequest
 对于网络的处理，用了XMLHttpRequest，但是没有，怎么办呢？那就从别处搬来好了。
 
-我是观摩了[Three.js 小程序适配版](https://github.com/wechat-miniprogram/threejs-miniprogram)， 直接从其src文件中将XMLHttpRequest.js和EventTarget.js复制过来直接引入使用的。
+我是观摩了[Three.js 小程序适配版](https://github.com/wechat-miniprogram/threejs-miniprogram)， 直接从其src文件中将XMLHttpRequest.js和EventTarget.js复制过来引入使用的。
