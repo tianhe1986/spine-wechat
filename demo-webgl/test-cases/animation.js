@@ -45,7 +45,7 @@ export function renderAnimation(canvas, spine) {
 
   function load() {
     if (assetManager.isLoadingComplete()) {
-      var data = loadSkeleton(skelName, animName, true);
+      var data = loadSkeleton(skelName, animName, false);
       skeleton = data.skeleton;
       state = data.state;
       bounds = data.bounds;
