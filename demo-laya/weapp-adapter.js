@@ -58,6 +58,7 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	var GameGlobal = wx;
 	var global = GameGlobal;
 
 	function inject() {
@@ -88,7 +89,7 @@
 	  // 开发者工具无法重定义 window
 
 
-	  if (typeof __devtoolssubcontext === 'undefined' && platform === 'devtools') {
+	  /*if (typeof __devtoolssubcontext === 'undefined' && platform === 'devtools') {
 	    for (var key in _window) {
 	      var descriptor = Object.getOwnPropertyDescriptor(global, key);
 
@@ -109,14 +110,14 @@
 	      }
 	    }
 	    window.parent = window;
-	  } else {
+	  } else {*/
 	    for (var _key2 in _window) {
 	      global[_key2] = _window[_key2];
 	    }
 	    global.window = _window;
 	    window = global;
 	    window.top = window.parent = window;
-	  }
+	  //}
 	}
 
 	if (!GameGlobal.__isAdapterInjected) {
@@ -642,8 +643,8 @@
 	var hasInit2DContextConstructor = false;
 	var hasInitWebGLContextConstructor = false;
 
-	function Canvas() {
-	  var canvas = wx.createCanvas();
+	function Canvas(inputCanvas = null) {
+		var canvas = inputCanvas != null ? inputCanvas : wx.createOffscreenCanvas();
 
 	  canvas.type = 'canvas';
 
@@ -716,9 +717,9 @@
 	  head: new _HTMLElement2.default('head'),
 	  body: new _HTMLElement2.default('body'),
 
-	  createElement: function createElement(tagName) {
+	  createElement: function createElement(tagName, inputIns = null) {
 	    if (tagName === 'canvas') {
-	      return new _Canvas2.default();
+	      return new _Canvas2.default(inputIns);
 	    } else if (tagName === 'audio') {
 	      return new _Audio2.default();
 	    } else if (tagName === 'img') {
@@ -807,7 +808,7 @@
 	});
 	exports.default = Image;
 	function Image() {
-	  var image = wx.createImage();
+	  var image = wx._cacheCanvas.createImage();
 
 	  return image;
 	}
@@ -1163,10 +1164,14 @@
 	  };
 	}
 
-	wx.onTouchStart(touchEventHandlerFactory('touchstart'));
-	wx.onTouchMove(touchEventHandlerFactory('touchmove'));
-	wx.onTouchEnd(touchEventHandlerFactory('touchend'));
-	wx.onTouchCancel(touchEventHandlerFactory('touchcancel'));
+	window.onTouchStart = touchEventHandlerFactory('touchstart');
+	window.onTouchMove = touchEventHandlerFactory('touchmove');
+	window.onTouchEnd = touchEventHandlerFactory('touchend');
+	window.onTouchCancel = touchEventHandlerFactory('touchcancel');
+	// wx.onTouchStart(touchEventHandlerFactory('touchstart'));
+	// wx.onTouchMove(touchEventHandlerFactory('touchmove'));
+	// wx.onTouchEnd(touchEventHandlerFactory('touchend'));
+	// wx.onTouchCancel(touchEventHandlerFactory('touchcancel'));
 
 /***/ }),
 /* 17 */
