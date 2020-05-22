@@ -10072,7 +10072,8 @@ window.Laya= (function (exports) {
             if (gl.instrumentExtension) {
                 gl.instrumentExtension(this, "OES_vertex_array_object");
             }
-            gl.canvas.addEventListener('webglcontextrestored', function () {
+
+            gl.selfCacheCanvas.addEventListener('webglcontextrestored', function () {
                 log("OESVertexArrayObject emulation library context restored");
                 self.reset_();
             }, true);
@@ -10375,6 +10376,7 @@ window.Laya= (function (exports) {
             if (!gl)
                 return false;
             LayaGL.instance = gl;
+            gl.selfCacheCanvas = Render._mainCanvas.source;
             LayaGL.layaGPUInstance = new LayaGPU(gl, WebGL._isWebGL2);
             canvas.size(w, h);
             Context.__init__();
