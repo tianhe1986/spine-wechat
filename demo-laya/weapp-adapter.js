@@ -228,8 +228,8 @@
 	exports.setInterval = setInterval;
 	exports.clearTimeout = clearTimeout;
 	exports.clearInterval = clearInterval;
-	exports.requestAnimationFrame = requestAnimationFrame;
-	exports.cancelAnimationFrame = cancelAnimationFrame;
+	//exports.requestAnimationFrame = requestAnimationFrame;
+	//exports.cancelAnimationFrame = cancelAnimationFrame;
 
 /***/ }),
 /* 2 */
