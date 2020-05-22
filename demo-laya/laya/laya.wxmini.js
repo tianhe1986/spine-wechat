@@ -1,4 +1,5 @@
 var window = wx.window;
+window.wx = wx;
 window.wxMiniGame = function (exports, Laya) {
 	'use strict';
 
@@ -982,7 +983,7 @@ window.wxMiniGame = function (exports, Laya) {
 	        };
 	        MiniAdpter.window.CanvasRenderingContext2D = function () {
 	        };
-	        MiniAdpter.window.CanvasRenderingContext2D.prototype = MiniAdpter.window.wx.createCanvas().getContext('2d').__proto__;
+	        MiniAdpter.window.CanvasRenderingContext2D.prototype = null;
 	        MiniAdpter.window.document.body.appendChild = function () {
 	        };
 	        MiniAdpter.EnvConfig.pixelRatioInt = 0;
@@ -1089,7 +1090,7 @@ window.wxMiniGame = function (exports, Laya) {
 	                }
 	            }
 	            else {
-	                _source = MiniAdpter.window.wx.createCanvas();
+	                _source = MiniAdpter.window.wx.createOffscreenCanvas();
 	            }
 	            MiniAdpter.idx++;
 	            return _source;

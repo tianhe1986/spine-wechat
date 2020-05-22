@@ -1,4 +1,5 @@
 var window = wx.window;
+var document = window.document;
 window.Laya= (function (exports) {
     'use strict';
 
@@ -6988,7 +6989,7 @@ window.Laya= (function (exports) {
                     Laya["ALIMiniAdapter"].enable();
                 }
             }
-            if (u.indexOf('OPPO') == -1 && u.indexOf("MiniGame") > -1 && "wx" in Browser.window) {
+            if (u.indexOf('OPPO') == -1 && u.indexOf("MiniGame") > -1 && typeof(wx) != "undefined") {
                 if ("qq" in Browser.window) {
                     window.qqMiniGame(Laya, Laya);
                     if (!Laya["QQMiniAdapter"]) {
@@ -7203,10 +7204,10 @@ window.Laya= (function (exports) {
                 CharRender_Canvas.canvas = Browser.createElement('canvas');
                 CharRender_Canvas.canvas.width = 1024;
                 CharRender_Canvas.canvas.height = 512;
-                CharRender_Canvas.canvas.style.left = "-10000px";
-                CharRender_Canvas.canvas.style.position = "absolute";
+                //CharRender_Canvas.canvas.style.left = "-10000px";
+                //CharRender_Canvas.canvas.style.position = "absolute";
                 document.body.appendChild(CharRender_Canvas.canvas);
-                this.ctx = CharRender_Canvas.canvas.getContext('2d');
+                this.ctx = CharRender_Canvas.canvas.getContext('webgl');
             }
         }
         get canvasWidth() {
@@ -12530,7 +12531,7 @@ window.Laya= (function (exports) {
                 this._ctx = new ILaya.Context();
             }
             else {
-                this._ctx = this._source.getContext(ILaya.Render.isConchApp ? 'layagl' : '2d');
+                this._ctx = this._source.getContext(ILaya.Render.isConchApp ? 'layagl' : 'webgl');
             }
             this._ctx._canvas = this;
             return this._ctx;
@@ -20578,7 +20579,7 @@ window.Laya= (function (exports) {
     var supportWeakMap = !!WeakMap;
     class WeakObject {
         constructor() {
-            this._obj = WeakObject.supportWeakMap ? new Browser.window.WeakMap() : {};
+            this._obj = WeakObject.supportWeakMap ? new WeakMap() : {};
             if (!WeakObject.supportWeakMap)
                 WeakObject._maps.push(this);
         }
