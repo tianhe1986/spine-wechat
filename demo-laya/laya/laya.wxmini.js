@@ -1,3 +1,4 @@
+var window = wx.window;
 window.wxMiniGame = function (exports, Laya) {
 	'use strict';
 

@@ -1,3 +1,4 @@
+var window = wx.window;
 (function (exports, Laya) {
 	'use strict';
 
@@ -6066,4 +6067,4 @@
 	exports.WXOpenDataViewer = WXOpenDataViewer;
 	exports.Widget = Widget;
 
-}(window.Laya = window.Laya|| {}, Laya));
+}(window.Laya = window.Laya|| {}, window.Laya));

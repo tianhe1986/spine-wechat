@@ -1,3 +1,4 @@
+var window = wx.window;
 window.Laya= (function (exports) {
     'use strict';
 
