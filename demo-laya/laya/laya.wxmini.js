@@ -1077,17 +1077,13 @@ window.wxMiniGame = function (exports, Laya) {
 	        }
 	        return MiniAdpter.EnvConfig.pixelRatioInt;
 	    }
-	    static createElement(type) {
+	    static createElement(type, inputIns = null) {
 	        if (type == "canvas") {
 	            var _source;
-	            if (MiniAdpter.idx == 1) {
-	                if (MiniAdpter.isZiYu) {
-	                    _source = MiniAdpter.window.sharedCanvas;
-	                    _source.style = {};
-	                }
-	                else {
-	                    _source = MiniAdpter.window.canvas;
-	                }
+	            if (inputIns != null) {
+									_source = inputIns;
+									_source.addEventListener = window.addEventListener;
+	  							_source.removeEventListener = window.removeEventListener;
 	            }
 	            else {
 	                _source = MiniAdpter.window.wx.createOffscreenCanvas();

@@ -7102,9 +7102,9 @@ window.Laya= (function (exports) {
             }
             return win;
         }
-        static createElement(type) {
+        static createElement(type, inputIns = null) {
             Browser.__init__();
-            return Browser._document.createElement(type);
+            return Browser._document.createElement(type, inputIns);
         }
         static getElementById(type) {
             Browser.__init__();
@@ -10336,10 +10336,10 @@ window.Laya= (function (exports) {
                 document.body.appendChild(Render._mainCanvas.source);
             }
             this.initRender(Render._mainCanvas, width, height);
-            window.requestAnimationFrame(loop);
+            mainCanv._source.requestAnimationFrame(loop);
             function loop(stamp) {
                 ILaya.stage._loop();
-                window.requestAnimationFrame(loop);
+                mainCanv._source.requestAnimationFrame(loop);
             }
             ILaya.stage.on("visibilitychange", this, this._onVisibilitychange);
         }
@@ -10354,7 +10354,7 @@ window.Laya= (function (exports) {
         initRender(canvas, w, h) {
             function getWebGLContext(canvas) {
                 var gl;
-                var names = ["webgl2", "webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
+                var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
                 if (!Config.useWebGL2 || Browser.onBDMiniGame) {
                     names.shift();
                 }
@@ -12500,10 +12500,10 @@ window.Laya= (function (exports) {
         _getSource() {
             return this._source;
         }
-        constructor(createCanvas = false) {
+        constructor(createCanvas = false, inputCanvas = null) {
             super();
             if (createCanvas)
-                this._source = Browser.createElement("canvas");
+                this._source = Browser.createElement("canvas", inputCanvas);
             else {
                 this._source = this;
             }
@@ -15766,7 +15766,7 @@ window.Laya= (function (exports) {
             _this._event._stoped = false;
             _this._event.nativeEvent = nativeEvent || e;
             _this._target = null;
-            this._point.setTo(e.pageX || e.clientX, e.pageY || e.clientY);
+            this._point.setTo(e.pageX || e.clientX || e.x, e.pageY || e.clientY || e.y);
             if (this._stage._canvasTransform) {
                 this._stage._canvasTransform.invertTransformPoint(this._point);
                 _this.mouseX = this._point.x;
@@ -16371,11 +16371,11 @@ window.Laya= (function (exports) {
             mat.tx = this._formatData(mat.tx);
             mat.ty = this._formatData(mat.ty);
             super.set_transform(this.transform);
-            canvasStyle.transformOrigin = canvasStyle.webkitTransformOrigin = canvasStyle.msTransformOrigin = canvasStyle.mozTransformOrigin = canvasStyle.oTransformOrigin = "0px 0px 0px";
-            canvasStyle.transform = canvasStyle.webkitTransform = canvasStyle.msTransform = canvasStyle.mozTransform = canvasStyle.oTransform = "matrix(" + mat.toString() + ")";
+            //canvasStyle.transformOrigin = canvasStyle.webkitTransformOrigin = canvasStyle.msTransformOrigin = canvasStyle.mozTransformOrigin = canvasStyle.oTransformOrigin = "0px 0px 0px";
+            //canvasStyle.transform = canvasStyle.webkitTransform = canvasStyle.msTransform = canvasStyle.mozTransform = canvasStyle.oTransform = "matrix(" + mat.toString() + ")";
             if (this._safariOffsetY)
                 mat.translate(0, -this._safariOffsetY);
-            mat.translate(parseInt(canvasStyle.left) || 0, parseInt(canvasStyle.top) || 0);
+            mat.translate(0,  0);
             this.visible = true;
             this._repaint |= SpriteConst.REPAINT_CACHE;
             this.event(Event.RESIZE);
@@ -17252,7 +17252,7 @@ window.Laya= (function (exports) {
                 return;
             }
             WebAudioSound.__loadingSound[url] = true;
-            var request = new XMLHttpRequest();
+            var request = new window.XMLHttpRequest();
             request.open("GET", url, true);
             request.responseType = "arraybuffer";
             request.onload = function () {
@@ -17670,7 +17670,7 @@ window.Laya= (function (exports) {
     class HttpRequest extends EventDispatcher {
         constructor() {
             super(...arguments);
-            this._http = new XMLHttpRequest();
+            this._http = new window.XMLHttpRequest();
         }
         send(url, data = null, method = "get", responseType = "text", headers = null) {
             this._responseType = responseType;
@@ -22014,20 +22014,20 @@ window.Laya= (function (exports) {
         static __init(_classs) {
             _classs.forEach(function (o) { o.__init$ && o.__init$(); });
         }
-        static init(width, height, ...plugins) {
+        static init(inputCanvas, width, height, ...plugins) {
             if (Laya._isinit)
                 return;
             Laya._isinit = true;
             ArrayBuffer.prototype.slice || (ArrayBuffer.prototype.slice = Laya._arrayBufferSlice);
             Browser.__init__();
-            var mainCanv = Browser.mainCanvas = new HTMLCanvas(true);
-            var style = mainCanv.source.style;
+            var mainCanv = Browser.mainCanvas = new HTMLCanvas(true, inputCanvas);
+            /*var style = mainCanv.source.style;
             style.position = 'absolute';
             style.top = style.left = "0px";
             style.background = "#000000";
             if (!Browser.onKGMiniGame && !Browser.onAlipayMiniGame) {
                 Browser.container.appendChild(mainCanv.source);
-            }
+            }*/
             Browser.canvas = new HTMLCanvas(true);
             Browser.context = Browser.canvas.getContext('2d');
             Browser.supportWebAudio = SoundManager.__init__();
