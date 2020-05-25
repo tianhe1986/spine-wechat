@@ -16419,12 +16419,12 @@ window.Laya= (function (exports) {
                 this._wgColor = ColorUtils.create(value).arrColor;
             else
                 this._wgColor = null;
-            if (value) {
+            /*if (value) {
                 Render.canvas.style.background = value;
             }
             else {
                 Render.canvas.style.background = "none";
-            }
+            }*/
         }
         get mouseX() {
             return Math.round(MouseManager.instance.mouseX / this.clientScaleX);
