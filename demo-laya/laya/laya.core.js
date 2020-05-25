@@ -6285,7 +6285,14 @@ window.Laya= (function (exports) {
             var gl = LayaGL.instance;
             WebGLContext.bindTexture(gl, gl.TEXTURE_2D, this._source);
             !ILaya.Render.isConchApp && gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-            gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, gl.RGBA, gl.UNSIGNED_BYTE, canv);
+            // 说明一下， 有更简单的改法， 将TextRender.isWan1Wan 强制设为false即可， 就不会走到这里， 会用上面的addChar进行渲染
+            // 之所以改这里，是因为个人觉得，应该是有其他办法， 直接将canvas作为texSubImage2D的最后一个参数执行的，想要继续探索更好的兼容性调整方案。
+            var tempImgData = canv.getContext('2d').getImageData(0, 0, canv.width, canv.height);
+            var dt = tempImgData.data;
+            if (tempImgData.data instanceof Uint8ClampedArray)
+                dt = new Uint8Array(dt.buffer);
+            gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, tempImgData.width, tempImgData.height, gl.RGBA, gl.UNSIGNED_BYTE, dt);
+            //gl.texSubImage2D(gl.TEXTURE_2D, 0, x, y, gl.RGBA, gl.UNSIGNED_BYTE, canv);
             !ILaya.Render.isConchApp && gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
             var u0;
             var v0;
@@ -7201,13 +7208,13 @@ window.Laya= (function (exports) {
             this.supportImageData = useImageData;
             this.showDbgInfo = showdbg;
             if (!CharRender_Canvas.canvas) {
-                CharRender_Canvas.canvas = Browser.createElement('canvas');
+                CharRender_Canvas.canvas = Browser.createElement('canvas', Laya.inputCharCanvas);
                 CharRender_Canvas.canvas.width = 1024;
                 CharRender_Canvas.canvas.height = 512;
                 //CharRender_Canvas.canvas.style.left = "-10000px";
                 //CharRender_Canvas.canvas.style.position = "absolute";
                 document.body.appendChild(CharRender_Canvas.canvas);
-                this.ctx = CharRender_Canvas.canvas.getContext('webgl');
+                this.ctx = CharRender_Canvas.canvas.getContext('2d');
             }
         }
         get canvasWidth() {
@@ -12533,7 +12540,7 @@ window.Laya= (function (exports) {
                 this._ctx = new ILaya.Context();
             }
             else {
-                this._ctx = this._source.getContext(ILaya.Render.isConchApp ? 'layagl' : 'webgl');
+                this._ctx = this._source.getContext(ILaya.Render.isConchApp ? 'layagl' : '2d');
             }
             this._ctx._canvas = this;
             return this._ctx;
@@ -22016,13 +22023,16 @@ window.Laya= (function (exports) {
         static __init(_classs) {
             _classs.forEach(function (o) { o.__init$ && o.__init$(); });
         }
-        static init(inputCanvas, width, height, ...plugins) {
+        static init(inputCanvas, input2dCanvas, inputCharCanvas, width, height, ...plugins) {
             if (Laya._isinit)
                 return;
             Laya._isinit = true;
+            Laya.inputCanvas = inputCanvas;
+            Laya.input2dCanvas = input2dCanvas;
+            Laya.inputCharCanvas = inputCharCanvas;
             ArrayBuffer.prototype.slice || (ArrayBuffer.prototype.slice = Laya._arrayBufferSlice);
             Browser.__init__();
-            var mainCanv = Browser.mainCanvas = new HTMLCanvas(true, inputCanvas);
+            var mainCanv = Browser.mainCanvas = new HTMLCanvas(true, Laya.inputCanvas);
             /*var style = mainCanv.source.style;
             style.position = 'absolute';
             style.top = style.left = "0px";
@@ -22030,7 +22040,7 @@ window.Laya= (function (exports) {
             if (!Browser.onKGMiniGame && !Browser.onAlipayMiniGame) {
                 Browser.container.appendChild(mainCanv.source);
             }*/
-            Browser.canvas = new HTMLCanvas(true);
+            Browser.canvas = new HTMLCanvas(true, Laya.input2dCanvas);
             Browser.context = Browser.canvas.getContext('2d');
             Browser.supportWebAudio = SoundManager.__init__();
             Browser.supportLocalStorage = LocalStorage.__init__();
