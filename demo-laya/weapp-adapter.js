@@ -144,7 +144,10 @@
 	    enumerable: true,
 	    get: function get() {
 	      return _WindowProperties[key];
-	    }
+			},
+			set: function set(value) {
+				_WindowProperties[key] = value;
+			}
 	  });
 	});
 

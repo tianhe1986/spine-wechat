@@ -22030,6 +22030,9 @@ window.Laya= (function (exports) {
             Laya.inputCanvas = inputCanvas;
             Laya.input2dCanvas = input2dCanvas;
             Laya.inputCharCanvas = inputCharCanvas;
+            const dpr = wx.getSystemInfoSync().pixelRatio;
+            wx.window.innerWidth = wx.window.screen.availWidth = Laya.inputCanvas.width / dpr;
+            wx.window.innerHeight = wx.window.screen.availHeight = Laya.inputCanvas.height / dpr;
             ArrayBuffer.prototype.slice || (ArrayBuffer.prototype.slice = Laya._arrayBufferSlice);
             Browser.__init__();
             var mainCanv = Browser.mainCanvas = new HTMLCanvas(true, Laya.inputCanvas);
