@@ -1,5 +1,11 @@
+module.exports.layaInit = function() {
 var window = wx.window;
 var document = window.document;
+if (window.Laya) {
+    window.Laya.Laya.stop();
+    delete (window.Laya);
+    window.Laya = null;
+}
 window.Laya= (function (exports) {
     'use strict';
 
@@ -10344,10 +10350,10 @@ window.Laya= (function (exports) {
                 document.body.appendChild(Render._mainCanvas.source);
             }
             this.initRender(Render._mainCanvas, width, height);
-            mainCanv._source.requestAnimationFrame(loop);
+            Laya.animationId = mainCanv._source.requestAnimationFrame(loop);
             function loop(stamp) {
                 ILaya.stage._loop();
-                mainCanv._source.requestAnimationFrame(loop);
+                Laya.animationId = mainCanv._source.requestAnimationFrame(loop);
             }
             ILaya.stage.on("visibilitychange", this, this._onVisibilitychange);
         }
@@ -22023,6 +22029,11 @@ window.Laya= (function (exports) {
         static __init(_classs) {
             _classs.forEach(function (o) { o.__init$ && o.__init$(); });
         }
+        static stop() {
+            if (Laya.animationId) {
+                Laya.inputCanvas.cancelAnimationFrame(Laya.animationId);
+            }
+        }
         static init(inputCanvas, input2dCanvas, inputCharCanvas, width, height, ...plugins) {
             if (Laya._isinit)
                 return;
@@ -22206,6 +22217,7 @@ window.Laya= (function (exports) {
             };
         }
     }
+    Laya.animationId = null;
     Laya.stage = null;
     Laya.systemTimer = null;
     Laya.startTimer = null;
@@ -25661,3 +25673,4 @@ window.Laya= (function (exports) {
     return exports;
 
 }({}));
+}

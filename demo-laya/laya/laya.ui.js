@@ -1,3 +1,4 @@
+module.exports.layaUiInit = function() {
 var window = wx.window;
 (function (exports, Laya) {
 	'use strict';
@@ -6068,3 +6069,4 @@ var window = wx.window;
 	exports.Widget = Widget;
 
 }(window.Laya = window.Laya|| {}, window.Laya));
+}

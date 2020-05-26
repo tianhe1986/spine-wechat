@@ -1,5 +1,10 @@
+module.exports.layaWxInit = function() {
 var window = wx.window;
 window.wx = wx;
+if (window.wxMiniGame) {
+	delete (window.wxMiniGame);
+	window.wxMiniGame = null;
+}
 window.wxMiniGame = function (exports, Laya) {
 	'use strict';
 
@@ -1685,3 +1690,4 @@ window.wxMiniGame = function (exports, Laya) {
 	exports.MiniVideo = MiniVideo;
 
 } 
+}

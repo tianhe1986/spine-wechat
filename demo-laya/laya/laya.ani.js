@@ -1,3 +1,4 @@
+module.exports.layaAniInit = function() {
 var window = wx.window;
 (function (exports, Laya) {
     'use strict';
@@ -4211,3 +4212,4 @@ var window = wx.window;
     exports.UVTools = UVTools;
 
 }(window.Laya = window.Laya|| {}, window.Laya));
+}
