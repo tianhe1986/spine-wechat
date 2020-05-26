@@ -1,6 +1,8 @@
 {
   "pages":[
-    "index/index"
+    "index/index",
+    "test/navi",
+    "test/redi"
   ],
   "window":{
     "backgroundTextStyle":"light",

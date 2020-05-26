@@ -1,8 +1,12 @@
 <canvas
   type="webgl"
   id="webgl"
-  style="width: 750rpx; height: 1334rpx;position:absolute;" bindtouchstart="doTouchStart" bindtouchmove="doTouchMove" bindtouchend="doTouchEnd" bindtouchcancel="doTouchCancel"
+  style="width: 750rpx; height: 1034rpx;position:absolute;top:300rpx;" bindtouchstart="doTouchStart" bindtouchmove="doTouchMove" bindtouchend="doTouchEnd" bindtouchcancel="doTouchCancel"
 ></canvas>
+<navigator open-type="navigate" url="/test/navi">点我navigate跳转啊</navigator>
+<view>-------------------------------------------------</view>
+<view>-------------------------------------------------</view>
+<navigator open-type="redirect" url="/test/redi">点我redirect跳转啊</navigator>
 <view>You are shock !!!!!!!!!!!!!!!!</view>
 <view>You are shock !!!!!!!!!!!!!!!!</view>
 <view>You are shock !!!!!!!!!!!!!!!!</view>

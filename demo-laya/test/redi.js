@@ -1,15 +1,36 @@
+// test/redi.js
 const { layaWxInit } = require('../laya/laya.wxmini.js')
 const { layaInit } = require('../laya/laya.core.js')
 const { layaAniInit } = require('../laya/laya.ani.js')
 const { layaUiInit } = require('../laya/laya.ui.js')
-const { layaTest } = require('../test-cases/layatest')
-
-const app = getApp()
+const { rediTest } = require('../test-cases/reditest')
 
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
     isHidden: false
   },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
   onShow: function () {
     this.setData({
       isHidden: false
@@ -38,13 +59,46 @@ Page({
               layaInit();
               layaAniInit();
               layaUiInit();
-              layaTest(canvas, canvas2d, canvasChar);
+              rediTest(canvas, canvas2d, canvasChar);
             });
         });
         
       });
+  },
 
-    
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
   },
 
   doTouchStart(event) {
@@ -58,5 +112,5 @@ Page({
   },
   doTouchCancel(event) {
     wx.window.onTouchCancel(event);
-  },
+  }
 })

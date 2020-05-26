@@ -1,12 +1,5 @@
 //app.js
 require("weapp-adapter.js");
-require("laya/laya.wxmini.js");
-wx.window.loadLib = require;
-
-wx.window.loadLib("laya/laya.core.js")
-wx.window.loadLib("laya/laya.ani.js")
-wx.window.loadLib("laya/laya.ui.js")
-wx.window.loadLib("laya/laya.physics.js")
 
 App({
   onLaunch: function () {
