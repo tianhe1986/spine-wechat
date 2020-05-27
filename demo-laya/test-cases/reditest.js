@@ -12,7 +12,7 @@ export function rediTest(canvas, canvas2d, canvasChar) {
         // 传递的三个参数分别用于主画布，Browser额外画布，以及处理文字用画布
         Laya.init(canvas, canvas2d, canvasChar, 1334, 750, Laya["WebGL"]);
         Laya.stage.bgColor = "#cccccc";
-        Laya.stage.screenMode = "vertical";
+        Laya.stage.screenMode = "none";
         Laya.stage.scaleMode = "showall";
         Laya.stage.alignV = "middle";
         Laya.stage.alignH = "center";

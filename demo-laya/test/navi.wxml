@@ -3,7 +3,7 @@
 <canvas
   type="webgl"
   id="webgl"
-  style="width: 400rpx; height: 800rpx;position:absolute;top:300rpx;left:150rpx;" bindtouchstart="doTouchStart" bindtouchmove="doTouchMove" bindtouchend="doTouchEnd" bindtouchcancel="doTouchCancel"
+  style="width: 300rpx; height: 800rpx;position:absolute;top:300rpx;left:200rpx;" bindtouchstart="doTouchStart" bindtouchmove="doTouchMove" bindtouchend="doTouchEnd" bindtouchcancel="doTouchCancel"
 ></canvas>
 <navigator open-type="navigateBack">回到首页</navigator>
 <view>这是一个navigate页面</view>

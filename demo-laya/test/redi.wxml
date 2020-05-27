@@ -2,7 +2,7 @@
 <canvas
   type="webgl"
   id="webgl"
-  style="width: 750rpx; height: 800rpx;position:absolute;top:200rpx;" bindtouchstart="doTouchStart" bindtouchmove="doTouchMove" bindtouchend="doTouchEnd" bindtouchcancel="doTouchCancel"
+  style="width: 750rpx; height: 500rpx;position:absolute;top:200rpx;" bindtouchstart="doTouchStart" bindtouchmove="doTouchMove" bindtouchend="doTouchEnd" bindtouchcancel="doTouchCancel"
 ></canvas>
 <navigator open-type="redirect" url="/index/index">回到首页</navigator>
 <view>这是一个redirect页面</view>
