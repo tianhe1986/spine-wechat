@@ -50,11 +50,6 @@ Page({
                 isHidden: true
               });
               const canvas = res[0].node;
-              const dpr = wx.getSystemInfoSync().pixelRatio
-              var width = canvas.width;
-              var height = canvas.height;
-              canvas.width = width * dpr;
-              canvas.height = height * dpr;
               layaWxInit();
               layaInit();
               layaAniInit();

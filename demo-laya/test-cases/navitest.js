@@ -13,7 +13,7 @@ export function naviTest(canvas, canvas2d, canvasChar) {
         Laya.init(canvas, canvas2d, canvasChar, 750, 1334, Laya["WebGL"]);
         Laya.stage.bgColor = "black";
         Laya.stage.screenMode = "none";
-        Laya.stage.scaleMode = "showall";
+        Laya.stage.scaleMode = "noborder";
         Laya.stage.alignV = "middle";
         Laya.stage.alignH = "center";
         //兼容微信不支持加载scene后缀场景

@@ -13,7 +13,7 @@ export function rediTest(canvas, canvas2d, canvasChar) {
         Laya.init(canvas, canvas2d, canvasChar, 1334, 750, Laya["WebGL"]);
         Laya.stage.bgColor = "#cccccc";
         Laya.stage.screenMode = "none";
-        Laya.stage.scaleMode = "showall";
+        Laya.stage.scaleMode = "fixedheight";
         Laya.stage.alignV = "middle";
         Laya.stage.alignH = "center";
         //兼容微信不支持加载scene后缀场景

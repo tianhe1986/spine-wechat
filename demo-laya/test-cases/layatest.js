@@ -11,11 +11,11 @@ export function layaTest(canvas, canvas2d, canvasChar) {
         Laya.Config.isAlpha = true;
         // 传递的三个参数分别用于主画布，Browser额外画布，以及处理文字用画布
         Laya.init(canvas, canvas2d, canvasChar, 750, 1334, Laya["WebGL"]);
-        Laya.stage.bgColor = null;
+        Laya.stage.bgColor = "rgba(0, 0, 0, 0.3)";
         Laya.stage.screenMode = "none";
         Laya.stage.scaleMode = "showall";
         Laya.stage.alignV = "middle";
-        Laya.stage.alignH = "center";
+        Laya.stage.alignH = "right";
         //兼容微信不支持加载scene后缀场景
         Laya.URL.exportSceneToJson = true;
       }
@@ -24,10 +24,10 @@ export function layaTest(canvas, canvas2d, canvasChar) {
           var sp = new Laya.Sprite();
           Laya.stage.addChild(sp);
           //画直线
-          sp.graphics.drawLine(10, 58, 500, 58, "#ffff00", 5);
+          sp.graphics.drawLine(10, 58, 750, 58, "#ffff00", 5);
 
-          sp.width = 500;
-          sp.height = 200;
+          sp.width = 750;
+          sp.height = 70;
           sp.on(Laya.Event.CLICK, this, this.showAni);
 
           var image = new Laya.Image("/res/0.png");
@@ -39,7 +39,7 @@ export function layaTest(canvas, canvas2d, canvasChar) {
 
           var text = new Laya.Text();
           text.fontSize = 48;
-          text.text = "你这小家伙";
+          text.text = "你这小家伙啊啊啊啊啊";
           text.color = "red";
           Laya.stage.addChild(text);
           text.pos(200, 700);
@@ -47,10 +47,10 @@ export function layaTest(canvas, canvas2d, canvasChar) {
 
           var text = new Laya.Text();
           text.fontSize = 48;
-          text.text = "你这大家伙";
+          text.text = "你这大家伙呀呀呀呀呀";
           text.color = "blue";
           Laya.stage.addChild(text);
-          text.pos(200, 1000);
+          text.pos(200, 1300);
           text.on(Laya.Event.CLICK, this, this.showAni);
       }
 
