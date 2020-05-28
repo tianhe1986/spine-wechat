@@ -12560,15 +12560,17 @@ window.Laya= (function (exports) {
         getMemSize() {
             return 0;
         }
-        size(w, h) {
-            if (this._width != w || this._height != h || (this._source && (this._source.width != w || this._source.height != h))) {
+        size(w, h, realw, realh) {
+            (realw === void 0) && (realw = w);
+            (realh === void 0) && (realh = h);
+            if (this._width != w || this._height != h || (this._source && (this._source.width != realw || this._source.height != realh))) {
                 this._width = w;
                 this._height = h;
                 this._setCPUMemory(w * h * 4);
                 this._ctx && this._ctx.size && this._ctx.size(w, h);
                 if (this._source) {
-                    this._source.height = h;
-                    this._source.width = w;
+                    this._source.height = realh;
+                    this._source.width = realw;
                 }
                 if (this._texture) {
                     this._texture.destroy();
@@ -16290,6 +16292,11 @@ window.Laya= (function (exports) {
             var scaleY = screenHeight / this.designHeight;
             var canvasWidth = this.useRetinalCanvas ? screenWidth : this.designWidth;
             var canvasHeight = this.useRetinalCanvas ? screenHeight : this.designHeight;
+            // html中的canvas的width和height作用跟想像的不同，不是真的改变了宽高，而是另一种逻辑宽高，用于限定展示的内容。
+            // 换句话说，html中的canvas的宽高是固定不变的，没办法调整它的大小，我们能做的只是调整渲染区域的大小和位置。
+            // 以下两个参数用于调整canvas逻辑宽高，以达到缩放效果
+            var justCanvasWidth = screenWidth;
+            var justCanvasHeight = screenHeight;
             var realWidth = screenWidth;
             var realHeight = screenHeight;
             var pixelRatio = Browser.pixelRatio;
@@ -16308,6 +16315,13 @@ window.Laya= (function (exports) {
                     break;
                 case Stage.SCALE_NOBORDER:
                     scaleX = scaleY = Math.max(scaleX, scaleY);
+                    // 这里canvasWidth和canvasHeight都等于设计宽高
+                    // 假设width能够全部展示，height超出了，则 justCanvasWidth应该等于canvasWidth， 而justCanvasHeight按screen宽高比调整
+                    // 则 justCanvasWidth = designWidth = screenWidth / scaleX， 即 justCanvasWidth = justCanvasWidth / scaleX， 等比调整则
+                    // 等比调整，则 justCanvasHeight = screeHeight / scaleX = justCanvasHeight / scaleY
+                    // 同样的， height能够全部展示也是一样
+                    justCanvasWidth = justCanvasWidth / scaleX;
+                    justCanvasHeight = justCanvasHeight / scaleY;
                     realWidth = Math.round(this.designWidth * scaleX);
                     realHeight = Math.round(this.designHeight * scaleY);
                     break;
@@ -16319,10 +16333,16 @@ window.Laya= (function (exports) {
                 case Stage.SCALE_FIXED_WIDTH:
                     scaleY = scaleX;
                     this._height = canvasHeight = Math.round(screenHeight / scaleX);
+                    // width 全部展示， 则 justCanvasWidth = canvasWidth
+                    // 等比缩放， 则 justCanvasHeight = screenHeight / (screenWidth / this.designWidth) = screenHeight / scaleX = canvasHeight
+                    justCanvasWidth = canvasWidth;
+                    justCanvasHeight = canvasHeight;
                     break;
                 case Stage.SCALE_FIXED_HEIGHT:
                     scaleX = scaleY;
                     this._width = canvasWidth = Math.round(screenWidth / scaleY);
+                    justCanvasWidth = canvasWidth;
+                    justCanvasHeight = canvasHeight;
                     break;
                 case Stage.SCALE_FIXED_AUTO:
                     if ((screenWidth / screenHeight) < (this.designWidth / this.designHeight)) {
@@ -16333,6 +16353,12 @@ window.Laya= (function (exports) {
                         scaleX = scaleY;
                         this._width = canvasWidth = Math.round(screenWidth / scaleY);
                     }
+                    justCanvasWidth = canvasWidth;
+                    justCanvasHeight = canvasHeight;
+                    break;
+                case Stage.SCALE_EXACTFIT:
+                    justCanvasWidth = canvasWidth;
+                    justCanvasHeight = canvasHeight;
                     break;
             }
             if (this.useRetinalCanvas) {
@@ -16348,21 +16374,22 @@ window.Laya= (function (exports) {
                 this.transform.a = this._formatData(scaleX / (realWidth / canvasWidth));
                 this.transform.d = this._formatData(scaleY / (realHeight / canvasHeight));
             }
-            canvas.size(canvasWidth, canvasHeight);
-            RunDriver.changeWebGLSize(canvasWidth, canvasHeight);
+            canvas.size(canvasWidth, canvasHeight, justCanvasWidth, justCanvasHeight);
+            // 视口宽高与canvas的宽高一定要一致
+            RunDriver.changeWebGLSize(justCanvasWidth, justCanvasHeight);
             mat.scale(realWidth / canvasWidth / pixelRatio, realHeight / canvasHeight / pixelRatio);
             if (this._alignH === Stage.ALIGN_LEFT)
                 this.offset.x = 0;
             else if (this._alignH === Stage.ALIGN_RIGHT)
                 this.offset.x = screenWidth - realWidth;
             else
-                this.offset.x = (screenWidth - realWidth) * 0.5 / pixelRatio;
+                this.offset.x = (screenWidth - realWidth) * 0.5;
             if (this._alignV === Stage.ALIGN_TOP)
                 this.offset.y = 0;
             else if (this._alignV === Stage.ALIGN_BOTTOM)
                 this.offset.y = screenHeight - realHeight;
             else
-                this.offset.y = (screenHeight - realHeight) * 0.5 / pixelRatio;
+                this.offset.y = (screenHeight - realHeight) * 0.5;
             this.offset.x = Math.round(this.offset.x);
             this.offset.y = Math.round(this.offset.y);
             mat.translate(this.offset.x, this.offset.y);
@@ -16391,6 +16418,10 @@ window.Laya= (function (exports) {
             if (this._safariOffsetY)
                 mat.translate(0, -this._safariOffsetY);
             mat.translate(0,  0);
+            // canvas的移动也不是小游戏中那样，因此只好移动stage来达到产生偏移的效果
+            // noborder模式下 justCanvas做了额外调整 = sreen / scale， 因此这里计算出的位移也要跟着处理
+            this.x = (scaleMode == Stage.SCALE_NOBORDER ? mat.tx / scaleX : mat.tx);
+            this.y = (scaleMode == Stage.SCALE_NOBORDER ? mat.ty / scaleY : mat.ty);
             this.visible = true;
             this._repaint |= SpriteConst.REPAINT_CACHE;
             this.event(Event.RESIZE);
@@ -22041,9 +22072,12 @@ window.Laya= (function (exports) {
             Laya.inputCanvas = inputCanvas;
             Laya.input2dCanvas = input2dCanvas;
             Laya.inputCharCanvas = inputCharCanvas;
-            const dpr = wx.getSystemInfoSync().pixelRatio;
-            wx.window.innerWidth = wx.window.screen.availWidth = Laya.inputCanvas.width / dpr;
-            wx.window.innerHeight = wx.window.screen.availHeight = Laya.inputCanvas.height / dpr;
+            if (Laya.inputCanvas._cacheOriWidth == undefined) {
+                Laya.inputCanvas._cacheOriWidth = Laya.inputCanvas.width;
+                Laya.inputCanvas._cacheOriHeight = Laya.inputCanvas.height;
+            }
+            wx.window.innerWidth = wx.window.screen.availWidth = Laya.inputCanvas._cacheOriWidth;
+            wx.window.innerHeight = wx.window.screen.availHeight = Laya.inputCanvas._cacheOriHeight;
             ArrayBuffer.prototype.slice || (ArrayBuffer.prototype.slice = Laya._arrayBufferSlice);
             Browser.__init__();
             var mainCanv = Browser.mainCanvas = new HTMLCanvas(true, Laya.inputCanvas);
