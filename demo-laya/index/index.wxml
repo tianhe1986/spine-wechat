@@ -5,8 +5,9 @@
 ></canvas>
 <navigator open-type="navigate" url="/test/navi">点我navigate跳转啊</navigator>
 <view>-------------------------------------------------</view>
-<view>-------------------------------------------------</view>
 <navigator open-type="redirect" url="/test/redi">点我redirect跳转啊</navigator>
+<view>-------------------------------------------------</view>
+<navigator open-type="redirect" url="/test/scene">点我测试场景加载啊</navigator>
 <view>You are shock !!!!!!!!!!!!!!!!</view>
 <view>You are shock !!!!!!!!!!!!!!!!</view>
 <view>You are shock !!!!!!!!!!!!!!!!</view>

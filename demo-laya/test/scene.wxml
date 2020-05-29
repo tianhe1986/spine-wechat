@@ -1,0 +1,18 @@
+<canvas
+  type="webgl"
+  id="webgl"
+  style="width: 750rpx; height: 1000rpx;position:absolute;top:200rpx;" bindtouchstart="doTouchStart" bindtouchmove="doTouchMove" bindtouchend="doTouchEnd" bindtouchcancel="doTouchCancel"
+></canvas>
+<navigator open-type="redirect" url="/index/index">回到首页</navigator>
+<view>-------------------------------------------------</view>
+<navigator open-type="navigate" url="/test/back">进入下一页</navigator>
+<canvas
+  type="2d"
+  id="test2d"
+  style="width: 750rpx; height: 1350rpx;position:absolute;top:40rpx;left:-100000rpx;" hidden="{{isHidden}}"
+></canvas>
+<canvas
+  type="2d"
+  id="testchar"
+  style="width: 750rpx; height: 1350rpx;position:absolute;top:40rpx;left:-100000rpx;" hidden="{{isHidden}}"
+></canvas>

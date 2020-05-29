@@ -2,7 +2,9 @@
   "pages":[
     "index/index",
     "test/navi",
-    "test/redi"
+    "test/redi",
+    "test/scene",
+    "test/back"
   ],
   "window":{
     "backgroundTextStyle":"light",
