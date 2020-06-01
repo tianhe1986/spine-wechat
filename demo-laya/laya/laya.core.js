@@ -14288,7 +14288,7 @@ window.Laya= (function (exports) {
         ctx._targets.restore();
         var dt = ctx._targets.getData(0, 0, canvasWidth, canvasHeight);
         ctx.destroy();
-        var imgdata = new ImageData(canvasWidth, canvasHeight);
+        var imgdata = Laya.input2dCanvas._ctx.createImageData(canvasWidth, canvasHeight);
         var lineLen = canvasWidth * 4;
         var dst = imgdata.data;
         var y = canvasHeight - 1;
@@ -14299,7 +14299,7 @@ window.Laya= (function (exports) {
             off -= lineLen;
             srcoff += lineLen;
         }
-        var canv = new HTMLCanvas(true);
+        var canv = new HTMLCanvas(true, Laya.input2dCanvas);
         canv.size(canvasWidth, canvasHeight);
         var ctx2d = canv.getContext('2d');
         ctx2d.putImageData(imgdata, 0, 0);
