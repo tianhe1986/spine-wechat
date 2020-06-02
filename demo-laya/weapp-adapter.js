@@ -1660,7 +1660,8 @@
 	  value: true
 	});
 	var location = {
-	  href: 'game.js',
+		href: 'game.js',
+		search: '',
 	  reload: function reload() {}
 	};
 
