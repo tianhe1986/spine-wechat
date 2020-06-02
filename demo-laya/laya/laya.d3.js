@@ -1,3 +1,11 @@
+module.exports.layaD3Init = function() {
+var window = wx.window;
+if (window.Laya3D) {
+	delete (window.Config3D);
+	delete (window.Laya3D);
+	window.Config3D = null;
+	window.Laya3D = null;
+}
 (function (exports, Laya) {
 	'use strict';
 
@@ -29707,7 +29715,7 @@
 	        RenderContext3D.clientWidth = width;
 	        RenderContext3D.clientHeight = height;
 	    }
-	    static __init__(width, height, config) {
+	    static __init__(inputCanvas, input2dCanvas, inputCharCanvas, width, height, config) {
 	        Laya.Config.isAntialias = config.isAntialias;
 	        Laya.Config.isAlpha = config.isAlpha;
 	        Laya.Config.premultipliedAlpha = config.premultipliedAlpha;
@@ -29718,7 +29726,7 @@
 	        }
 	        Laya.RunDriver.changeWebGLSize = Laya3D._changeWebGLSize;
 	        Laya.Render.is3DMode = true;
-	        Laya.Laya.init(width, height);
+	        Laya.Laya.init(inputCanvas, input2dCanvas, inputCharCanvas, width, height);
 	        if (!Laya.Render.supportWebGLPlusRendering) {
 	            Laya.LayaGL.instance = Laya.WebGLContext.mainContext;
 	            Laya.LayaGL.instance.createCommandEncoder = function (reserveSize = 128, adjustSize = 64, isSyncToRenderThread = false) {
@@ -30229,7 +30237,7 @@
 	        process = offset + process * weight;
 	        (process < 1.0) && (loader.event(Laya.Event.PROGRESS, process));
 	    }
-	    static init(width, height, config = null, compolete = null) {
+	    static init(inputCanvas, input2dCanvas, inputCharCanvas, width, height, config = null, compolete = null) {
 	        if (Laya3D._isInit)
 	            return;
 	        Laya3D._isInit = true;
@@ -30245,13 +30253,13 @@
 	        var physics3D = window.Physics3D;
 	        if (physics3D == null) {
 	            Physics3D._enbalePhysics = false;
-	            Laya3D.__init__(width, height, Laya3D._config);
+	            Laya3D.__init__(inputCanvas, input2dCanvas, inputCharCanvas, width, height, Laya3D._config);
 	            compolete && compolete.run();
 	        }
 	        else {
 	            Physics3D._enbalePhysics = true;
 	            physics3D(Laya3D._config.defaultPhysicsMemory * 1024 * 1024).then(function () {
-	                Laya3D.__init__(width, height, Laya3D._config);
+	                Laya3D.__init__(inputCanvas, input2dCanvas, inputCharCanvas, width, height, Laya3D._config);
 	                compolete && compolete.run();
 	            });
 	        }
@@ -31332,4 +31340,5 @@
 	exports.Viewport = Viewport;
 	exports.WaterPrimaryMaterial = WaterPrimaryMaterial;
 
-}(window.Laya = window.Laya|| {}, Laya));
+}(window.Laya = window.Laya|| {}, window.Laya));
+}
