@@ -124,9 +124,9 @@ Failed to execute 'texSubImage2D' on 'WebGLRenderingContext': No function was fo
 性能方面的测试我还没有做，如果影响比较大例如内存不会被回收，可能还是得想想其他办法。
 
 # TODO
-1. 普通2d渲染模式。
-2. 3D适配调整。
-3. 音频播放测试。
+1. ~~普通2d渲染模式。~~ Laya底层处理改过了，initRender时必须要getContext("webgl)才能继续往下走，因此只使用2d canvas是不行的。
+2. 3D适配调整，待完整测试。
+3. ~~音频播放测试。~~ OK
 4. websocket测试。
-5. 现有项目直接搬入小程序页面测试。
+5. ~~现有项目直接搬入小程序页面测试。~~  我参与的项目使用了HTMLDivElement, XML解析无法处理，但其他没有发现啥问题。
 6. 性能测试。

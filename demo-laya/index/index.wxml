@@ -8,6 +8,7 @@
 <navigator open-type="redirect" url="/test/redi">点我redirect跳转啊</navigator>
 <view>-------------------------------------------------</view>
 <navigator open-type="redirect" url="/test/scene">点我测试场景加载啊</navigator>
+<navigator open-type="redirect" url="/test/laya3d">点我测试3d加载</navigator>
 <view>You are shock !!!!!!!!!!!!!!!!</view>
 <view>You are shock !!!!!!!!!!!!!!!!</view>
 <view>You are shock !!!!!!!!!!!!!!!!</view>
