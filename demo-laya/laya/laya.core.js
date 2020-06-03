@@ -10343,7 +10343,7 @@ window.Laya= (function (exports) {
         constructor(width, height, mainCanv) {
             this._timeId = 0;
             Render._mainCanvas = mainCanv;
-            Render._mainCanvas.source.id = "layaCanvas";
+            // Render._mainCanvas.source.id = "layaCanvas";
             Render._mainCanvas.source.width = width;
             Render._mainCanvas.source.height = height;
             if (Render.isConchApp) {
