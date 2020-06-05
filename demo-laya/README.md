@@ -125,8 +125,9 @@ Failed to execute 'texSubImage2D' on 'WebGLRenderingContext': No function was fo
 
 # TODO
 1. ~~普通2d渲染模式。~~ Laya底层处理改过了，initRender时必须要getContext("webgl)才能继续往下走，因此只使用2d canvas是不行的。
-2. 3D适配调整，待完整测试。
+2. 3D适配调整，待完整测试。目前仅拿官方那个[3D子父级关系](https://layaair2.ldc2.layabox.com/demo2/?language=zh&category=3d&group=Sprite3D&name=Sprite3DParent)试了试。
 3. ~~音频播放测试。~~ OK
 4. websocket测试。
 5. ~~现有项目直接搬入小程序页面测试。~~  我参与的项目使用了HTMLDivElement, XML解析无法处理，但其他没有发现啥问题。
 6. 性能测试。
+7. IOS在canvas中触发事件时调用网络请求的BUG，见[官方论坛](https://developers.weixin.qq.com/community/develop/doc/00048cf406c46080683af517556800?highLine=wx.request%2520%25E6%2597%25A0%25E5%259B%259E%25E8%25B0%2583), 这个我的一个解决思路是在Laya触发事件时，延迟一帧再进行处理。
