@@ -33,3 +33,6 @@ webgl模式要好很多，但是相比于将spine动画导入layabox并播放，
 对于网络的处理，用了XMLHttpRequest，但是没有，怎么办呢？那就从别处搬来好了。
 
 我是观摩了[Three.js 小程序适配版](https://github.com/wechat-miniprogram/threejs-miniprogram)， 直接从其src文件中将XMLHttpRequest.js和EventTarget.js复制过来引入使用的。
+
+# Laya导入使用
+在文件夹中单独做了说明，见[这里](./demo-laya)
