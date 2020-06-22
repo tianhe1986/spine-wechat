@@ -3,11 +3,11 @@
 
 首先，[原始运行库](https://github.com/EsotericSoftware/spine-runtimes)肯定是没法直接执行的，需要做一些调整。
 
-我在这里将canvas以及webgl（基于运行库3.7）调整后的文件放在了spine-modify文件夹中，相应展示的demo也分别放在了demo-canvas和demo-webgl文件夹下(动画模型文件放在了assets文件夹下，实际使用需要自己搭建网络)，也是基于运行库3.7中的官方示例修改的。
+我在这里将canvas以及webgl调整后的文件放在了spine-modify文件夹中，包括3.7和3.8版本。相应展示的demo也分别放在了demo-canvas和demo-webgl文件夹下(动画模型文件放在了assets文件夹下，实际使用需要自己搭建网络)，也是基于两个版本的官方示例修改的。
 
-但是奉劝一句，不要用canvas模式了，清晰度惨不忍睹，或许是有些配置参数需要调整优化，但是在默认情况下真的不能看。
+~~但是奉劝一句，不要用canvas模式了，清晰度惨不忍睹，或许是有些配置参数需要调整优化，但是在默认情况下真的不能看。~~我自己蠢忘了调设备像素比
 
-webgl模式要好很多，但是相比于将spine动画导入layabox并播放，清晰度方面也还是要差一些。
+~~webgl模式要好很多，但是相比于将spine动画导入layabox并播放，清晰度方面也还是要差一些。~~跟上面一样蠢
 
 ## 运行库调整修改
 虽然现在的demo可以直接运行，但是，授之以鱼不如授之以渔，说明怎么改才是正道，下面以spine-webgl为例，其实改动并不太多，可以对比spine-webgl和spine-webgl-ori查看其中的差异。
