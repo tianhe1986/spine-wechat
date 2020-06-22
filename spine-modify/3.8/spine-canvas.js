@@ -1,3 +1,5 @@
+import XMLHttpRequest from './XMLHttpRequest'
+export function getSpine(canvas) {
 var __extends = (this && this.__extends) || (function () {
 	var extendStatics = function (d, b) {
 		extendStatics = Object.setPrototypeOf ||
@@ -2269,7 +2271,7 @@ var spine;
 			path = this.pathPrefix + path;
 			var storagePath = path;
 			this.toLoad++;
-			var img = new Image();
+			var img = canvas.createImage();
 			img.crossOrigin = "anonymous";
 			img.onload = function (ev) {
 				var texture = _this.textureLoader(img);
@@ -2303,7 +2305,7 @@ var spine;
 				try {
 					var atlas = new spine.TextureAtlas(atlasData, function (path) {
 						atlasPages.push(parent == "" ? path : parent + "/" + path);
-						var image = document.createElement("img");
+						var image = canvas.createImage();
 						image.width = 16;
 						image.height = 16;
 						return new spine.FakeTexture(image);
@@ -3564,7 +3566,7 @@ var spine;
 			path = this.pathPrefix + path;
 			if (!this.queueAsset(clientId, textureLoader, path))
 				return;
-			var img = new Image();
+			var img = canvas.createImage();
 			img.crossOrigin = "anonymous";
 			img.onload = function (ev) {
 				_this.rawAssets[path] = img;
@@ -8433,4 +8435,5 @@ var spine;
 		canvas.SkeletonRenderer = SkeletonRenderer;
 	})(canvas = spine.canvas || (spine.canvas = {}));
 })(spine || (spine = {}));
-//# sourceMappingURL=spine-canvas.js.map
+return spine;
+}
