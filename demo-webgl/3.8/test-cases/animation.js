@@ -10,8 +10,8 @@ export function renderAnimation(canvas, spine) {
   var skeletonRenderer;
   var shapes;
 
-  var baseUrl = "http://test.mine.cn/spine/assets/";
-  var skelName = "spineboy";
+  var baseUrl = "http://test.mine.cn/spine/assets/3.8/";
+  var skelName = "spineboy-pro";
   var animName = "run";
   var swirlEffect = new spine.SwirlEffect(0);
   var jitterEffect = new spine.JitterEffect(20, 20);
@@ -21,7 +21,7 @@ export function renderAnimation(canvas, spine) {
 
   function init() {
     var config = {
-      alpha: false
+      alpha: true
     };
     gl = canvas.getContext("webgl", config) || canvas.getContext("experimental-webgl", config);
     if (!gl) {
@@ -37,15 +37,15 @@ export function renderAnimation(canvas, spine) {
     shapes = new spine.webgl.ShapeRenderer(gl);
     assetManager = new spine.webgl.AssetManager(gl, baseUrl);
 
-    assetManager.loadText(skelName + ".json");
-    assetManager.loadTextureAtlas(skelName.replace("-pro", "").replace("-ess", "") + ".atlas");
+    assetManager.loadBinary("spineboy-pro.skel");
+	  assetManager.loadTextureAtlas("spineboy-pma.atlas");
 
     canvas.requestAnimationFrame(load);
   }
 
   function load() {
     if (assetManager.isLoadingComplete()) {
-      var data = loadSkeleton(skelName, animName, false);
+      var data = loadSkeleton(skelName, animName, true);
       skeleton = data.skeleton;
       state = data.state;
       bounds = data.bounds;
@@ -59,16 +59,16 @@ export function renderAnimation(canvas, spine) {
   function loadSkeleton(name, initialAnimation, premultipliedAlpha, skin) {
     if (skin === undefined) skin = "default";
 
-    atlas = assetManager.get(name.replace("-ess", "").replace("-pro", "").replace("-stretchy-ik", "") + ".atlas");
+    atlas = assetManager.get(name.replace("-ess", "").replace("-pro", "") + (premultipliedAlpha ? "-pma": "") + ".atlas");
 
     // Create a AtlasAttachmentLoader that resolves region, mesh, boundingbox and path attachments
     atlasLoader = new spine.AtlasAttachmentLoader(atlas);
 
-    // Create a SkeletonJson instance for parsing the .json file.
-    var skeletonJson = new spine.SkeletonJson(atlasLoader);
+    // Create a SkeletonBinary instance for parsing the .skel file.
+	  var skeletonBinary = new spine.SkeletonBinary(atlasLoader);
 
     // Set the scale to apply during parsing, parse the file, and create a new skeleton.
-    var skeletonData = skeletonJson.readSkeletonData(assetManager.get(name + ".json"));
+    var skeletonData = skeletonBinary.readSkeletonData(assetManager.get(name + ".skel"));
     var skeleton = new spine.Skeleton(skeletonData);
     skeleton.scaleX = 0.5;
     skeleton.scaleY = 0.5;
@@ -79,7 +79,7 @@ export function renderAnimation(canvas, spine) {
     var animationStateData = new spine.AnimationStateData(skeleton.data);
     var animationState = new spine.AnimationState(animationStateData);
 
-      animationState.setAnimation(0, initialAnimation, true);
+    animationState.setAnimation(0, initialAnimation, true);
     animationState.addListener({
       start: function (track) {
         //console.log("Animation on track " + track.trackIndex + " started");
@@ -129,7 +129,7 @@ export function renderAnimation(canvas, spine) {
 
     resize();
 
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     state.update(delta);
