@@ -10,8 +10,8 @@ export function renderAnimation(canvas, spine) {
   var skeletonRenderer;
   var shapes;
 
-  var baseUrl = "http://test.mine.cn/spine/assets/";
-  var skelName = "spineboy";
+  var baseUrl = "http://test.mine.cn/spine/assets/3.6/";
+  var skelName = "spineboy-ess";
   var animName = "run";
   var swirlEffect = new spine.SwirlEffect(0);
   var jitterEffect = new spine.JitterEffect(20, 20);
@@ -21,7 +21,7 @@ export function renderAnimation(canvas, spine) {
 
   function init() {
     var config = {
-      alpha: false
+      alpha: true, premultipliedAlpha: false
     };
     gl = canvas.getContext("webgl", config) || canvas.getContext("experimental-webgl", config);
     if (!gl) {
@@ -66,12 +66,11 @@ export function renderAnimation(canvas, spine) {
 
     // Create a SkeletonJson instance for parsing the .json file.
     var skeletonJson = new spine.SkeletonJson(atlasLoader);
+    skeletonJson.scale = 0.5;
 
     // Set the scale to apply during parsing, parse the file, and create a new skeleton.
     var skeletonData = skeletonJson.readSkeletonData(assetManager.get(name + ".json"));
     var skeleton = new spine.Skeleton(skeletonData);
-    skeleton.scaleX = 0.5;
-    skeleton.scaleY = 0.5;
     skeleton.setSkinByName(skin);
     var bounds = calculateBounds(skeleton);
 
@@ -129,7 +128,7 @@ export function renderAnimation(canvas, spine) {
 
     resize();
 
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(0.3, 0.3, 0.3, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     state.update(delta);
