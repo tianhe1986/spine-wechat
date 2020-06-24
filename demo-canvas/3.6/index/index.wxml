@@ -1,0 +1,6 @@
+<view style="height: 50px"></view>
+<canvas
+  type="2d"
+  id="webgl"
+  style="width: 100%; height: 500px;"
+></canvas>
