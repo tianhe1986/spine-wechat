@@ -61,7 +61,7 @@ export function renderAnimation(canvas, spine) {
     var skeletonData = skeletonJson.readSkeletonData(assetManager.get( name + ".json"));
     var skeleton = new spine.Skeleton(skeletonData);
     skeleton.scaleX = 0.5;
-    skeleton.scaleY = -0.25;
+    skeleton.scaleY = -0.5;
     var bounds = calculateBounds(skeleton);
     skeleton.setSkinByName(skin);
   

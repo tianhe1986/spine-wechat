@@ -6,8 +6,8 @@ export function renderAnimation(canvas, spine) {
   var skeleton, state, bounds, atlas, atlasLoader;
   var skeletonRenderer;
 
-  var baseUrl = "http://test.mine.cn/spine/assets/";
-  var skelName = "spineboy";
+  var baseUrl = "http://test.mine.cn/spine/assets/3.6/";
+  var skelName = "spineboy-ess";
   var animName = "run";
 
   init();
@@ -56,12 +56,12 @@ export function renderAnimation(canvas, spine) {
   
     // Create a SkeletonJson instance for parsing the .json file.
     var skeletonJson = new spine.SkeletonJson(atlasLoader);
+    skeletonJson.scale = 0.5;
   
     // Set the scale to apply during parsing, parse the file, and create a new skeleton.
     var skeletonData = skeletonJson.readSkeletonData(assetManager.get( name + ".json"));
     var skeleton = new spine.Skeleton(skeletonData);
-    skeleton.scaleX = 0.5;
-    skeleton.scaleY = -0.25;
+    skeleton.flipY = true;
     var bounds = calculateBounds(skeleton);
     skeleton.setSkinByName(skin);
   
