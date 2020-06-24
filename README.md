@@ -3,7 +3,7 @@
 
 首先，[原始运行库](https://github.com/EsotericSoftware/spine-runtimes)肯定是没法直接执行的，需要做一些调整。
 
-我在这里将canvas以及webgl调整后的文件放在了spine-modify文件夹中，包括3.7和3.8版本。相应展示的demo也分别放在了demo-canvas和demo-webgl文件夹下(动画模型文件放在了assets文件夹下，实际使用需要自己搭建网络)，也是基于两个版本的官方示例修改的。
+我在这里将canvas以及webgl调整后的文件放在了spine-modify文件夹中，包括3.6, 3.7和3.8版本。相应展示的demo也分别放在了demo-canvas和demo-webgl文件夹下(动画模型文件放在了assets文件夹下，实际使用需要自己搭建网络)，也是基于两个版本的官方示例修改的。
 
 ~~但是奉劝一句，不要用canvas模式了，清晰度惨不忍睹，或许是有些配置参数需要调整优化，但是在默认情况下真的不能看。~~
 我自己蠢忘了调设备像素比
@@ -24,7 +24,7 @@
 所以，我这里将其封装成了`export function getSpine(canvas)`，支持调用时传入相应的canvas处理，最后return spine。
 
 ### Image创建
-上面也提到了，原版用到了新建Image的操作`new Image`以及`document.createElement("img")`，都需要改成`canvas.createImage()`。
+上面也提到了，原版用到了新建Image的操作`new Image()`以及`document.createElement("img")`，都需要改成`canvas.createImage()`。
 
 ### HTMLCanvasElement判断
 原版中有一句`canvasOrContext instanceof HTMLCanvasElement`的判断，而小程序中是没有HTMLCanvasElement这个类的。
