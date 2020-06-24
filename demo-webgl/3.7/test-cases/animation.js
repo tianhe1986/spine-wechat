@@ -21,7 +21,7 @@ export function renderAnimation(canvas, spine) {
 
   function init() {
     var config = {
-      alpha: false
+      alpha: true, premultipliedAlpha: false
     };
     gl = canvas.getContext("webgl", config) || canvas.getContext("experimental-webgl", config);
     if (!gl) {
@@ -129,7 +129,7 @@ export function renderAnimation(canvas, spine) {
 
     resize();
 
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     state.update(delta);
