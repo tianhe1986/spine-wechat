@@ -1,3 +1,5 @@
+import XMLHttpRequest from './XMLHttpRequest'
+export function getSpine(canvas) {
 var __extends = (this && this.__extends) || (function () {
 	var extendStatics = Object.setPrototypeOf ||
 		({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -1956,7 +1958,7 @@ var spine;
 			if (error === void 0) { error = null; }
 			path = this.pathPrefix + path;
 			this.toLoad++;
-			var img = new Image();
+			var img = canvas.createImage();
 			img.crossOrigin = "anonymous";
 			img.onload = function (ev) {
 				var texture = _this.textureLoader(img);
@@ -1981,7 +1983,7 @@ var spine;
 			if (error === void 0) { error = null; }
 			path = this.pathPrefix + path;
 			this.toLoad++;
-			var img = new Image();
+			var img = canvas.createImage();
 			img.onload = function (ev) {
 				var texture = _this.textureLoader(img);
 				_this.assets[path] = texture;
@@ -2012,7 +2014,7 @@ var spine;
 				try {
 					var atlas = new spine.TextureAtlas(atlasData, function (path) {
 						atlasPages.push(parent + "/" + path);
-						var image = document.createElement("img");
+						var image = canvas.createImage();
 						image.width = 16;
 						image.height = 16;
 						return new spine.FakeTexture(image);
@@ -3186,7 +3188,7 @@ var spine;
 			path = this.pathPrefix + path;
 			if (!this.queueAsset(clientId, textureLoader, path))
 				return;
-			var img = new Image();
+			var img = canvas.createImage();
 			img.src = path;
 			img.crossOrigin = "anonymous";
 			img.onload = function (ev) {
@@ -6932,14 +6934,14 @@ var spine;
 				this.timeKeeper.maxDelta = 9;
 				if (LoadingScreen.logoImg === null) {
 					var isSafari = navigator.userAgent.indexOf("Safari") > -1;
-					LoadingScreen.logoImg = new Image();
+					LoadingScreen.logoImg = canvas.createImage();
 					LoadingScreen.logoImg.src = LoadingScreen.SPINE_LOGO_DATA;
 					if (!isSafari)
 						LoadingScreen.logoImg.crossOrigin = "anonymous";
 					LoadingScreen.logoImg.onload = function (ev) {
 						LoadingScreen.loaded++;
 					};
-					LoadingScreen.spinnerImg = new Image();
+					LoadingScreen.spinnerImg = canvas.createImage();
 					LoadingScreen.spinnerImg.src = LoadingScreen.SPINNER_DATA;
 					if (!isSafari)
 						LoadingScreen.spinnerImg.crossOrigin = "anonymous";
@@ -9114,7 +9116,7 @@ var spine;
 				if (contextConfig === void 0) { contextConfig = { alpha: "true" }; }
 				var _this = this;
 				this.restorables = new Array();
-				if (canvasOrContext instanceof HTMLCanvasElement) {
+				if (canvasOrContext.getContext) {
 					var canvas = canvasOrContext;
 					this.gl = (canvas.getContext("webgl", contextConfig) || canvas.getContext("experimental-webgl", contextConfig));
 					this.canvas = canvas;
@@ -9182,4 +9184,5 @@ var spine;
 		webgl.WebGLBlendModeConverter = WebGLBlendModeConverter;
 	})(webgl = spine.webgl || (spine.webgl = {}));
 })(spine || (spine = {}));
-//# sourceMappingURL=spine-webgl.js.map
+return spine;
+}
